@@ -7,6 +7,7 @@ use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Wholesale\PartnerPortal\Api\Data\PartnerInterface;
+use Wholesale\PartnerPortal\Api\Data\PartnerSearchResultsInterface;
 
 interface PartnerRepositoryInterface
 {
@@ -43,11 +44,20 @@ interface PartnerRepositoryInterface
     public function delete(PartnerInterface $model): bool;
 
     /**
-     * Get models by criteria
+     * Get models by search criteria
      *
      * @param SearchCriteriaInterface|null $searchCriteria
      *
-     * @return array
+     * @return PartnerSearchResultsInterface
      */
-    public function getList(SearchCriteriaInterface $searchCriteria = null): array;
+    public function getList(SearchCriteriaInterface $searchCriteria = null): PartnerSearchResultsInterface;
+
+    /**
+     * Get single models by search criteria
+     *
+     * @param SearchCriteriaInterface|null $searchCriteria
+     *
+     * @return PartnerInterface|null
+     */
+    public function getSingle(SearchCriteriaInterface $searchCriteria = null): ?PartnerInterface;
 }

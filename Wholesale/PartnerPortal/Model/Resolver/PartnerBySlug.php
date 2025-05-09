@@ -5,7 +5,6 @@ namespace Wholesale\PartnerPortal\Model\Resolver;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
-use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Wholesale\PartnerPortal\Api\PartnerRepositoryInterface;
@@ -43,18 +42,12 @@ class PartnerBySlug implements ResolverInterface
         if (empty($args['slug'])) {
             throw new GraphQlInputException(__('Slug is required.'));
         }
-
         $criteria = $this->searchCriteriaBuilder
             ->addFilter('slug', $args['slug'])
             ->setPageSize(1)
             ->create();
+        $target = $this->partnerRepository->getSingle($criteria);
 
-        $result = $this->partnerRepository->getList($criteria);
-
-        if (empty($result)) {
-            throw new GraphQlNoSuchEntityException(__('Partner with slug "%1" not found.', $args['slug']));
-        }
-
-        return reset($result)->getData();
+        return $target?->getData();
     }
 }

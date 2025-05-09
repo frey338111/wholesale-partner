@@ -6,25 +6,35 @@ namespace Wholesale\PartnerPortal\Model;
 use Exception;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Wholesale\PartnerPortal\Api\PartnerRepositoryInterface;
 use Wholesale\PartnerPortal\Api\Data\PartnerInterface;
+use Wholesale\PartnerPortal\Api\Data\PartnerSearchResultsInterface;
+use Wholesale\PartnerPortal\Api\Data\PartnerSearchResultsInterfaceFactory;
 use Wholesale\PartnerPortal\Model\ResourceModel\Partner as ResourceModel;
 use Wholesale\PartnerPortal\Model\ResourceModel\Partner\CollectionFactory;
-use Wholesale\PartnerPortal\Reusable\RepositoryTrait;
 
 class PartnerRepository implements PartnerRepositoryInterface
 {
-    use RepositoryTrait;
-
     /**
-     * @var PartnerFactory partner model factory
+     * @var PartnerFactory
      */
     protected PartnerFactory $modelFactory;
 
     /**
-     * @var CollectionFactory partner model collection factory
+     * @var CollectionFactory
      */
     protected CollectionFactory $collectionFactory;
+
+    /**
+     * @var CollectionProcessorInterface
+     */
+    protected CollectionProcessorInterface $collectionProcessor;
+
+    /**
+     * @var PartnerSearchResultsInterfaceFactory
+     */
+    protected PartnerSearchResultsInterfaceFactory $searchResultsFactory;
 
     /**
      * @var ResourceModel partner resource model
@@ -34,11 +44,15 @@ class PartnerRepository implements PartnerRepositoryInterface
     public function __construct(
         PartnerFactory $modelFactory,
         CollectionFactory $collectionFactory,
-        ResourceModel $modelResource
+        ResourceModel $modelResource,
+        CollectionProcessorInterface $collectionProcessor,
+        PartnerSearchResultsInterfaceFactory $searchResultsFactory
     ) {
         $this->modelFactory = $modelFactory;
         $this->collectionFactory = $collectionFactory;
         $this->modelResource = $modelResource;
+        $this->collectionProcessor = $collectionProcessor;
+        $this->searchResultsFactory = $searchResultsFactory;
     }
 
     /**
@@ -58,16 +72,30 @@ class PartnerRepository implements PartnerRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getList(SearchCriteriaInterface $searchCriteria = null): array
+    public function getList(SearchCriteriaInterface $searchCriteria = null): PartnerSearchResultsInterface
     {
         $collection = $this->collectionFactory->create();
-        if ($searchCriteria) {
-            $this->addFiltersToCollection($searchCriteria, $collection);
-            $this->addSortOrdersToCollection($searchCriteria, $collection);
-            $this->addPagingToCollection($searchCriteria, $collection);
-        }
+        $this->collectionProcessor->process($searchCriteria, $collection);
+        $searchResults = $this->searchResultsFactory->create();
+        $searchResults->setItems($collection->getItems());
+        $searchResults->setTotalCount($collection->getSize());
+        $searchResults->setSearchCriteria($searchCriteria);
 
-        return $collection->getItems();
+        return $searchResults;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSingle(SearchCriteriaInterface $searchCriteria = null): ?PartnerInterface
+    {
+        $result = $this->getList($searchCriteria);
+        if ($result->getTotalCount() == 0) {
+            return null;
+        }
+        $items = $result->getItems();
+
+        return $items ? reset($items) : null;
     }
 
     /**

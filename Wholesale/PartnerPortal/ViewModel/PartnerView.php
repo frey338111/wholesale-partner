@@ -90,9 +90,7 @@ class PartnerView implements ArgumentInterface
             ->addFilter('slug', $slug)
             ->setPageSize(1)
             ->create();
-        $result = $this->partnerRepository->getList($criteria);
-
-        return !empty($result) ? reset($result) : null;
+        return $this->partnerRepository->getSingle($criteria);
     }
 
     /**
@@ -103,10 +101,10 @@ class PartnerView implements ArgumentInterface
     public function getPartnerCollection(): array
     {
         $searchCriteria = $this->searchCriteriaBuilder
-            ->setPageSize(0) // 0 means no pagination (load all)
+            ->setPageSize(0)
             ->create();
 
-        return $this->partnerRepository->getList($searchCriteria);
+        return $this->partnerRepository->getList($searchCriteria)->getItems();
     }
 
     /**

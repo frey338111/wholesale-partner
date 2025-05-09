@@ -2,6 +2,8 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Wholesale\PartnerPortal\Api\Data\PartnerInterface" type="Wholesale\PartnerPortal\Model\Partner"/>
     <preference for="Wholesale\PartnerPortal\Api\PartnerRepositoryInterface" type="Wholesale\PartnerPortal\Model\PartnerRepository"/>
+    <preference for="Wholesale\PartnerPortal\Api\Data\PartnerSearchResultsInterface" type="Wholesale\PartnerPortal\Model\PartnerSearchResults" />
+
     <type name="Magento\Framework\App\RouterList">
         <arguments>
             <argument name="routerList" xsi:type="array">

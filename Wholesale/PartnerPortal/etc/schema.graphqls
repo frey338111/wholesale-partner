@@ -1,0 +1,10 @@
+type Partner {
+  entity_id: Int
+  name: String
+  slug: String
+  logo: String
+}
+
+type Query {
+  partnerBySlug(slug: String!): Partner @resolver(class: "Wholesale\\PartnerPortal\\Model\\Resolver\\PartnerBySlug")
+}

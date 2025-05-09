@@ -1,0 +1,33 @@
+<?php /** @var \Wholesale\PartnerPortal\ViewModel\PartnerView $viewModel */ ?>
+<?php
+$viewModel = $block->getData("viewModel");
+$partner = $viewModel->getPartnerBySlug();
+?>
+<?php if ($partner): ?>
+    <div class="partner-view page-layout-1column">
+        <div class="block block-partner">
+            <div class="block-title">
+                <h1 class="partner-name"><?= $partner->getName() ?></h1>
+            </div>
+            <div class="block-content">
+                <div class="partner-logo" style="margin-bottom: 20px;">
+                    <img src="<?= $viewModel->getLogoUrl($partner) ?>"
+                         alt="<?= $partner->getName() ?>"
+                         style="max-width: 300px; width: 100%; height: auto;"/>
+                </div>
+                <div class="description">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed venenatis est est. Pellentesque at
+                    porta dolor, quis lacinia erat. Nulla orci erat, accumsan non metus quis, consequat pulvinar felis.
+                    Cras mollis ante nec sapien pretium interdum. Aliquam eget tincidunt mauris. Aliquam sed ipsum
+                    tincidunt, ultrices magna ut, mattis augue. Mauris in mi at est sodales pellentesque quis non eros.
+                    Nullam commodo diam urna, id pulvinar purus mattis ac.
+
+                </div>
+            </div>
+        </div>
+    </div>
+<?php else: ?>
+    <div class="message info empty">
+        <div><?= __('The requested partner could not be found.') ?></div>
+    </div>
+<?php endif; ?>

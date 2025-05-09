@@ -1,0 +1,26 @@
+<?php
+/** @var \Wholesale\PartnerPortal\ViewModel\PartnerView $viewModel */
+$viewModel = $block->getData("viewModel");
+$partners = $viewModel->getPartnerCollection();
+?>
+<h1><?= $viewModel->getListingPageTitle() ?></h1>
+<div class="products-grid grid">
+    <ol class="product-items">
+        <?php foreach ($partners as $partner): ?>
+            <li class="product-item">
+                <div class="product-item-info">
+                    <img src="<?= $viewModel->getLogoUrl($partner); ?>"
+                         alt="<?= $partner->getName() ?>"
+                         style="max-width: 150px; width: 100%; height: auto; display: block; margin: 0 auto;"/>
+                    <a href="<?= $block->getUrl('wholesale/partner/' . $partner->getSlug()) ?>">
+                        <div class="product-item-details">
+                            <strong class="product-item-name">
+                                <?= $partner->getName() ?>
+                            </strong>
+                        </div>
+                    </a>
+                </div>
+            </li>
+        <?php endforeach; ?>
+    </ol>
+</div>

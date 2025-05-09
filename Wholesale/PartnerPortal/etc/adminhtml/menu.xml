@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Menu/etc/menu.xsd">
+    <menu>
+        <add id="Wholesale_PartnerPortal::partner_root"
+             title="Wholesale"
+             module="Wholesale_PartnerPortal"
+             sortOrder="100"
+             resource="Wholesale_PartnerPortal::partner_root"/>
+        <add id="Wholesale_PartnerPortal::partner"
+             title="Partners"
+             module="Wholesale_PartnerPortal"
+             sortOrder="10"
+             parent="Wholesale_PartnerPortal::partner_root"
+             action="wholesale/partner/index"
+             resource="Wholesale_PartnerPortal::partner"/>
+    </menu>
+</config>

@@ -1,0 +1,18 @@
+{
+    "wholesale_partners": {
+        "column": {
+            "entity_id": true,
+            "name": true,
+            "slug": true,
+            "logo": true
+        },
+        "index": {
+            "WHOLESALE_PARTNERS_ENTITY_ID": true,
+            "WHOLESALE_PARTNERS_SLUG": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "WHOLESALE_PARTNERS_SLUG": true
+        }
+    }
+}

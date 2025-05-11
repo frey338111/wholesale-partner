@@ -18,7 +18,7 @@ interface PartnerSearchResultsInterface extends SearchResultsInterface
      * Set list of partners.
      *
      * @param PartnerInterface[] $items
-     *                                 
+     *
      * @return $this
      */
     public function setItems(array $items);

@@ -5,6 +5,14 @@ type Partner {
   logo: String
 }
 
+type PartnerSearchResult {
+  items: [Partner]
+  total_count: Int
+  current_page: Int
+  page_size: Int
+}
+
 type Query {
-  partnerBySlug(slug: String!): Partner @resolver(class: "Wholesale\\PartnerPortal\\Model\\Resolver\\PartnerBySlug")
+  partnerSearch(name: String, currentPage: Int = 1, pageSize: Int = 10): PartnerSearchResult
+    @resolver(class: "Wholesale\\PartnerPortal\\Model\\Resolver\\PartnerSearch")
 }

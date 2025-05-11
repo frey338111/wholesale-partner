@@ -10,8 +10,7 @@ A custom Magento 2 module that provides a Partner Portal for managing wholesale 
 - Upload and display partner logos
 - Custom frontend route for viewing partner details
 - Friendly URLs using `slug`
-- Admin grid with inline actions (edit/delete)
-- Image upload to `pub/media/wholesale/`
+- Image upload to `pub/media/partnerlogo/`
 - GraphQL support: list or seach partner by name 
 
 ---
